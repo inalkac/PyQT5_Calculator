@@ -2,6 +2,7 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 import sys
 from MainWindow import Ui_MainWindow
+import methods
 
 class CalcApp(QtWidgets.QMainWindow):
     def __init__(self):
@@ -24,30 +25,11 @@ class CalcApp(QtWidgets.QMainWindow):
         self.ui.btn_sub.clicked.connect(self.btnInput)
         self.ui.btn_mul.clicked.connect(self.btnInput)
         self.ui.btn_div.clicked.connect(self.btnInput)
+        self.ui.text_line.textChanged.connect(self.textChanged)
         
         
-    def convertText(self, textToConvert):
-        charList = list(textToConvert)
-        number1=[]
-        number2=[]
-        index = 0
-        if charList[0] == '-':
-                number1.append(charList[index])
-        while charList[index] not in ['+','-','*','/']:
-            number1.append(charList[index])
-            index+=1
-        sign = charList[index]
-        index+=1
-        if charList[index] == '-':
-                number2.append(charList[index])
-        while index< len(charList):
-            number2.append(charList[index])
-            index+=1
-        number1 = ''.join(number1)
-        number2 = ''.join(number2)
-        return [number1, sign, number2]
     def count(self):
-        x = self.convertText(self.ui.text_line.text())
+        x = methods.convertText(self.ui.text_line.text())
         if x[1] == '+':
             result = int(x[0]) + int(x[2])
         elif x[1] == '-':
@@ -66,6 +48,8 @@ class CalcApp(QtWidgets.QMainWindow):
     def keyPressEvent(self, event):
         if event.key() in [QtCore.Qt.Key_Equal, QtCore.Qt.Key_Enter]:
             self.count()
+    def textChanged(self):
+        self.ui.text_line.setText(methods.verifyText(self.ui.text_line.text()))
 def app():
     app = QtWidgets.QApplication(sys.argv)
     win = CalcApp()
