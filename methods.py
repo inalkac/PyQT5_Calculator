@@ -13,8 +13,10 @@ def convertText(textToConvert):
         index+=1
     sign = charList[index]
     index+=1
+    
     if charList[index] == '-':
         number2.append(charList[index])
+        index+=1
     while index< len(charList):
         number2.append(charList[index])
         index+=1
