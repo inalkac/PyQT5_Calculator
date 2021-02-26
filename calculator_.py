@@ -12,23 +12,14 @@ class CalcApp(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.ui.btn_equal.clicked.connect(self.showCountResult)
         self.ui.btn_ce.clicked.connect(self.clear)
-        self.ui.btn_0.clicked.connect(self.btnInput)
-        self.ui.btn_1.clicked.connect(self.btnInput)
-        self.ui.btn_2.clicked.connect(self.btnInput)
-        self.ui.btn_3.clicked.connect(self.btnInput)
-        self.ui.btn_4.clicked.connect(self.btnInput)
-        self.ui.btn_5.clicked.connect(self.btnInput)
-        self.ui.btn_6.clicked.connect(self.btnInput)
-        self.ui.btn_7.clicked.connect(self.btnInput)
-        self.ui.btn_8.clicked.connect(self.btnInput)
-        self.ui.btn_9.clicked.connect(self.btnInput)
-        self.ui.btn_add.clicked.connect(self.btnInput)
-        self.ui.btn_sub.clicked.connect(self.btnInput)
-        self.ui.btn_mul.clicked.connect(self.btnInput)
-        self.ui.btn_div.clicked.connect(self.btnInput)
         self.ui.text_line.textChanged.connect(self.textChanged)
+        self.showClickResult()
         
-        
+    def showClickResult(self):
+        regExp = QtCore.QRegExp("btn_([0-9])|(add)|(sub)|(mul)|(div)")
+        buttons = self.ui.centralwidget.findChildren(QtWidgets.QPushButton,regExp)
+        for i in buttons:
+            i.clicked.connect(self.btnInput)
     def showCountResult(self):
         self.ui.text_line.setText(countMethods.count(self.ui.text_line.text()))
     def clear(self):
