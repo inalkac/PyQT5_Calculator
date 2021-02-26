@@ -3,13 +3,14 @@ from PyQt5 import QtCore
 import sys
 from MainWindow import Ui_MainWindow
 import methods
+import countMethods
 
 class CalcApp(QtWidgets.QMainWindow):
     def __init__(self):
         super(CalcApp, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.btn_equal.clicked.connect(self.count)
+        self.ui.btn_equal.clicked.connect(self.showCountResult)
         self.ui.btn_ce.clicked.connect(self.clear)
         self.ui.btn_0.clicked.connect(self.btnInput)
         self.ui.btn_1.clicked.connect(self.btnInput)
@@ -28,17 +29,8 @@ class CalcApp(QtWidgets.QMainWindow):
         self.ui.text_line.textChanged.connect(self.textChanged)
         
         
-    def count(self):
-        x = methods.convertText(self.ui.text_line.text())
-        if x[1] == '+':
-            result = int(x[0]) + int(x[2])
-        elif x[1] == '-':
-            result = int(x[0]) - int(x[2])
-        elif x[1] == "*":
-            result = int(x[0]) * int(x[2])
-        elif x[1] == '/':
-            result = int(x[0]) / int(x[2])
-        self.ui.text_line.setText(str(result))
+    def showCountResult(self):
+        self.ui.text_line.setText(countMethods.count(self.ui.text_line.text()))
     def clear(self):
         self.ui.text_line.clear()
         self.ui.text_line.setFocus()
@@ -47,7 +39,7 @@ class CalcApp(QtWidgets.QMainWindow):
         self.ui.text_line.setText(text)
     def keyPressEvent(self, event):
         if event.key() in [QtCore.Qt.Key_Equal, QtCore.Qt.Key_Enter]:
-            self.count()
+            self.showCountResult()
     def textChanged(self):
         self.ui.text_line.setText(methods.verifyText(self.ui.text_line.text()))
 def app():

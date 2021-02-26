@@ -5,7 +5,9 @@ def convertText(textToConvert):
     number2=[]
     if charList[0] == '-':
         number1.append(charList[0])
-    index = 1
+        index = 1
+    else: 
+        index = 0
     while charList[index] not in ['+','-','*','/']:
         number1.append(charList[index])
         index+=1
